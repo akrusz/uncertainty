@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<title>Uncertainty: Improving discrete-domain dot and bar graphs</title>
+		<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="style.css">
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script type="text/javascript" src="d3.js"></script>
+		<script type="text/javascript" src="distros.js"></script>
+		
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-39619961-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+
+	</head>
+	<body>
+		<p>
+			Check out <a href="http://blog.velir.com/index.php/2013/07/11/visualizing-data-uncertainty-an-experiment-with-d3-js/">my post at the Velir Blog</a> for more info about this visualization.
+		</p>
+		<form name="graphOptions" onsubmit="generateGraph(); return false;">
+			<p>
+				<strong>Data set:</strong>
+				<span class="option">
+					<input type="radio" name="dataSet" value="data1" id="data1" checked="true"/>
+					<label for="data1">Example Set 1</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="radio" name="dataSet" value="data2" id="data2" />
+					<label for="data2">Example Set 2</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="radio" name="dataSet" value="user" id="user" />
+					<label for="user">User-specified data</label>
+				</span>
+			</p>
+			<div class="dataset">
+				<span>
+				For each data point, separate mean values and standard deviations with a comma. Separate data points with semicolons.
+				</span>
+				<br><br>
+				<input type="text" id="user-data" class="data-input">
+			</div>
+			<p class="std-dev">
+				<strong>Standard Deviation set:</strong>
+				<span class="option">
+					<input type="radio" name="stdDevs" value="stdDevs1" id="stdDevs1" checked="true" />
+					<label for="stdDevs1">Larger</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="radio" name="stdDevs" value="stdDevs2" id="stdDevs2" />
+					<label for="stdDevs2">Smaller</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="radio" name="stdDevs" value="stdDevs3" id="stdDevs3" />
+					<label for="stdDevs3">Tiny / pseudo-pointmasses</label>
+				</span>
+			</p>
+			<p>
+				<strong>Graph type:</strong>
+				<span class="option">
+					<input type="radio" name="type" value="dot" id="dot" checked="true"/>
+					<label for="dot">Discrete "dot" plot (<abbr title="Probability Density Function">PDF</abbr>)</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="radio" name="type" value="bar" id="bar"/>
+					<label for="bar">Discrete bar graph (1 - <abbr title="Cumulative Distribution Function">CDF</abbr>)</label>
+				</span>
+			</p>
+			<p>
+				<strong>Distribution:</strong>
+				<span class="option">
+					<input type="radio" name="distro" value="normal" id="normal" checked="true"/>
+					<label for="normal">Normal</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="radio" name="distro" value="triangular" id="triangular"/>
+					<label for="triangular">Triangular</label> - peak at 0 &le;
+					<input type="text" value="0.5" name="triangular-peak" id="triangular-peak" style="width:35px"/> 
+					&le; 1
+				</span> &nbsp; 
+				<span class="option">
+					<input type="radio" name="distro" value="uniform" id="uniform"/>
+					<label for="uniform">Uniform</label>					
+				</span> &nbsp; 
+				<span class="option">
+					<input type="radio" name="distro" value="hypSec" id="hypSec"/>
+					<label for="hypSec">Hyperbolic secant</label>
+				</span> &nbsp; 
+				<span class="option">
+					<input type="radio" name="distro" value="exponential" id="exponential"/>
+					<label for="exponential">Exponential</label>
+				</span>
+			</p>
+			<p>
+				<strong>Options:</strong>
+				<span class="option">
+					<input type="checkbox" name="scale" id="scale"/>
+					<label for="scale">Lock vertical scale</label>
+				</span>&nbsp; 
+				<span class="option">
+					<input type="checkbox" name="startFromZero" id="startFromZero" checked="true"/>
+					<label for="startFromZero">Force vertical scale to include zero</label>
+				</span>&nbsp;
+				<span class="option">
+					<label for="opacityDiff">Minimum peak opacity: </label>
+					<input type="text" value="0.2" name="opacityDiff" id="opacityDiff" maxlength="4" style="width:35px"/>
+				</span>&nbsp;
+				<span class="option">
+					<input type="checkbox" name="showBands" id="showBands"/>
+					<input type="text" value="5" name="numBands" id="numBands" maxlength="2" style="width:30px"/>
+					<label for="showBands"> color bands</label>
+				</span>
+			</p>
+		</form>
+
+		<script type="text/javascript" src="graph.js"></script>
+
+	</body>
+</html>
